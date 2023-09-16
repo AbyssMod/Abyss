@@ -1,0 +1,12 @@
+[submodule "Abyss.Core"]
+	path = Abyss.Core
+	url = https://github.com/AbyssMod/Abyss.Core.git
+[submodule "Abyss.Abilities"]
+	path = Abyss.Abilities
+	url = https://github.com/AbyssMod/Abyss.Abilities.git
+[submodule "Abyss.Initializer"]
+	path = Abyss.Initializer
+	url = https://github.com/AbyssMod/Abyss.Initializer.git
+[submodule "Abyss.Items"]
+	path = Abyss.Items
+	url = https://github.com/AbyssMod/Abyss.Items.git
