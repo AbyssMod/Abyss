@@ -14,7 +14,8 @@ jobs:
 
       - name: Clone Repo
         uses: actions/checkout@master
-
+        with:
+          submodules: true
       - name: Setup .NET
         uses: actions/setup-dotnet@v2
         with:
