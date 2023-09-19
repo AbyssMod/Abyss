@@ -95,7 +95,7 @@ jobs:
       - name: Release On Submodules
         shell: bash
         env:
-          GHTOKEN: ${{ sectrets.Abyss Actions }}
+          GHTOKEN: ${{ secrets.Abyss Actions }}
         run: |
           foreach($file in (Get-ChildItem "${{ env.OutputDirectory }}/dlls" -Recurse -Include *.dll)) {
               curl -L \
