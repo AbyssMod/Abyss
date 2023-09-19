@@ -40,10 +40,10 @@ jobs:
       - name: Upload Dlls
         uses: actions/upload-artifact@v3
         with:
-          name: nuget
+          name: dlls
           if-no-files-found: error
           retention-days: 7
-          path: ${{ env.NuGetDirectory }}/*.nupkg
+          path: ${{ env.NuGetDirectory }}/*.dll
         
       - name: Release
         uses: softprops/action-gh-release@v1
