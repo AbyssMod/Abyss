@@ -7,8 +7,8 @@ on:
     tags:
       - '*' 
 env:
-  NuGetDirectory: ${{ github.workspace}}/nuget
-  
+  OutputDirectory: ${{ github.workspace}}/output
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -25,7 +25,7 @@ jobs:
           dotnet-version: 6.0.x
 
       - name: Build
-        run: dotnet build -c Release --property:OutputPath=${{ env.NuGetDirectory }}
+        run: dotnet build -c Release --property:OutputPath=${{ env.OutputDirectory }}
 
       - name: Upload Nuget
         uses: actions/upload-artifact@v3
@@ -33,7 +33,7 @@ jobs:
           name: nuget
           if-no-files-found: error
           retention-days: 7
-          path: ${{ env.NuGetDirectory }}/*.nupkg
+          path: ${{ env.OutputDirectory }}/*.nupkg
 
       - name: Upload Dlls
         uses: actions/upload-artifact@v3
@@ -41,7 +41,7 @@ jobs:
           name: dlls
           if-no-files-found: error
           retention-days: 7
-          path: ${{ env.NuGetDirectory }}/*.dll
+          path: ${{ env.OutputDirectory }}/*.dll
           
       - name: Upload XMLs
         uses: actions/upload-artifact@v3
@@ -49,17 +49,31 @@ jobs:
           name: xmls
           if-no-files-found: error
           retention-days: 7
-          path: ${{ env.NuGetDirectory }}/*.xml
+          path: ${{ env.OutputDirectory }}/*.xml
   deploy:
     if: startsWith(github.ref, 'refs/tags/')
     runs-on: ubuntu-latest
     needs: [ build ]
     steps:
-      # Download the NuGet package created in the previous job
-      - uses: actions/download-artifact@v3
+
+      - name: Download Nuget Files
+        uses: actions/download-artifact@v3
         with:
           name: nuget
-          path: ${{ env.NuGetDirectory }}
+          path: ${{ env.OutputDirectory }}/nuget
+         
+      - name: Download Nuget Files
+        uses: actions/download-artifact@v3
+        with:
+          name: dlls
+          path: ${{ env.OutputDirectory }}/dlls
+
+      - name: Download Xml Files
+        uses: actions/download-artifact@v3
+        with:
+          name: xmls
+          path: ${{ env.OutputDirectory }}/xmls
+
           
       - name: Setup .NET Core
         uses: actions/setup-dotnet@v3
@@ -72,14 +86,13 @@ jobs:
       - name: Publish NuGet package
         shell: pwsh
         run: |
-          foreach($file in (Get-ChildItem "${{ env.NuGetDirectory }}" -Recurse -Include *.nupkg)) {
+          foreach($file in (Get-ChildItem "${{ env.OutputDirectory }}/nuget" -Recurse -Include *.nupkg)) {
               dotnet nuget push $file --api-key "${{ secrets.NUGET_APIKEY }}" --source https://api.nuget.org/v3/index.json --skip-duplicate
           }
 
       - name: Release
         uses: softprops/action-gh-release@v1
-        if: startsWith(github.ref, 'refs/tags/')
         with:
           files: |
-            ${{ env.NuGetDirectory }}/*.dll
-            ${{ env.NuGetDirectory }}/*.xml
+            ${{ env.OutputDirectory }}/dlls/*.dll
+            ${{ env.OutputDirectory }}/xmls/*.xml
