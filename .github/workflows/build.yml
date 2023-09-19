@@ -28,8 +28,17 @@ jobs:
 
       - name: Build
         run: dotnet build -c Release --property:OutputPath=${{ env.NuGetDirectory }}
-        
-      - uses: actions/upload-artifact@v3
+
+      - name: Upload Nuget
+        uses: actions/upload-artifact@v3
+        with:
+          name: nuget
+          if-no-files-found: error
+          retention-days: 7
+          path: ${{ env.NuGetDirectory }}/*.nupkg
+
+      - name: Upload Dlls
+        uses: actions/upload-artifact@v3
         with:
           name: nuget
           if-no-files-found: error
