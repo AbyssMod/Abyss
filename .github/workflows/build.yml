@@ -16,20 +16,14 @@ jobs:
         uses: actions/checkout@master
         with:
           submodules: true
+          
       - name: Setup .NET
-        uses: actions/setup-dotnet@v2
+        uses: actions/setup-dotnet@v3
         with:
           dotnet-version: 6.0.x
 
       - name: Build
         run: dotnet build -c Release
-
-      - name: Upload Mod DLL
-        uses: actions/upload-artifact@v2.2.4
-        with:
-          name: ${{ env.PROJECT_NAME }}.dll
-          path: ${{ env.BLOONSTD6 }}/Mods/${{ env.PROJECT_NAME }}.dll
-
 
       - name: Release
         uses: softprops/action-gh-release@v1
