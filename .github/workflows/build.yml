@@ -64,7 +64,7 @@ jobs:
           name: nuget
           path: ${{ env.OutputDirectory }}/nuget
          
-      - name: Download Nuget Files
+      - name: Download Dll Files
         uses: actions/download-artifact@v3
         with:
           name: dlls
