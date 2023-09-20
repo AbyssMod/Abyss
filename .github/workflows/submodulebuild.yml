@@ -30,7 +30,7 @@ jobs:
           name: ${{ github.event.repository.name }}.nupkg
           if-no-files-found: error
           retention-days: 7
-          path: ${{ env.OutputDirectory }}/${{ github.event.repository.name }}.nupkg
+          path: ${{ env.OutputDirectory }}/${{ github.event.repository.name }}*.nupkg
 
       - name: Upload Dll
         uses: actions/upload-artifact@v3
