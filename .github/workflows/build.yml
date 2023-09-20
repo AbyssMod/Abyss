@@ -30,7 +30,7 @@ jobs:
       - name: Upload Nuget
         uses: actions/upload-artifact@v3
         with:
-          name: nuget
+          name: nupkgs.zip
           if-no-files-found: error
           retention-days: 7
           path: ${{ env.OutputDirectory }}/*.nupkg
@@ -38,7 +38,7 @@ jobs:
       - name: Upload Dlls
         uses: actions/upload-artifact@v3
         with:
-          name: dlls
+          name: dlls.zip
           if-no-files-found: error
           retention-days: 7
           path: ${{ env.OutputDirectory }}/*.dll
@@ -46,64 +46,7 @@ jobs:
       - name: Upload XMLs
         uses: actions/upload-artifact@v3
         with:
-          name: xmls
+          name: xmls.zip
           if-no-files-found: error
           retention-days: 7
           path: ${{ env.OutputDirectory }}/*.xml
-  deploy:
-    permissions:
-      contents: write
-    if: startsWith(github.ref, 'refs/tags/')
-    runs-on: ubuntu-latest
-    needs: [ build ]
-    steps:
-
-      - name: Download Nuget Files
-        uses: actions/download-artifact@v3
-        with:
-          name: nuget
-          path: ${{ env.OutputDirectory }}/nuget
-         
-      - name: Download Dll Files
-        uses: actions/download-artifact@v3
-        with:
-          name: dlls
-          path: ${{ env.OutputDirectory }}/dlls
-
-      - name: Download Xml Files
-        uses: actions/download-artifact@v3
-        with:
-          name: xmls
-          path: ${{ env.OutputDirectory }}/xmls
-
-          
-      - name: Setup .NET Core
-        uses: actions/setup-dotnet@v3
-        with:
-          dotnet-version: 6.0.x
-          
-      # Publish all NuGet packages to NuGet.org
-      # Use --skip-duplicate to prevent errors if a package with the same version already exists.
-      # If you retry a failed workflow, already published packages will be skipped without error.
-      - name: Publish NuGet package
-        shell: pwsh
-        run: |
-          foreach($file in (Get-ChildItem "${{ env.OutputDirectory }}/nuget" -Recurse -Include *.nupkg)) {
-              dotnet nuget push $file --api-key "${{ secrets.NUGET_APIKEY }}" --source https://api.nuget.org/v3/index.json --skip-duplicate
-          }
-
-      - name: Release On Submodules
-        shell: bash
-        env:
-          ACTIONS_TOKEN: ${{ secrets.ACTIONS_TOKEN }}
-        run: |
-          foreach($file in (Get-ChildItem "${{ env.OutputDirectory }}/dlls" -Recurse -Include *.dll)) {
-              $name = $file -replace ".{4}$"
-              curl -L \
-                -X POST \
-                -H "Accept: application/vnd.github+json" \
-                -H "Authorization: Bearer "$env:ACTIONS_TOKEN" \
-                -H "X-GitHub-Api-Version: 2022-11-28" \
-                https://api.github.com/repos/AbyssMod/$name/releases \
-                -d '{"tag_name":"v1.0.0","target_commitish":"main","name":"v1.0.0","body":"","draft":false,"prerelease":false,"generate_release_notes":false}'
-          }
