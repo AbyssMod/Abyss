@@ -2,6 +2,7 @@ name: Build
 
 on:
   workflow_call:
+    
 env:
   OutputDirectory: ${{ github.workspace}}/output
   
@@ -9,7 +10,6 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-
       - name: Clone Repo
         uses: actions/checkout@master
         with:
@@ -80,11 +80,11 @@ jobs:
       - name: Publish NuGet package
         shell: pwsh
         run: |
-              dotnet nuget push "${{ env.OutputDirectory }}/${{ github.event.repository.name }}.nupkg" --api-key "${{ secrets.NUGET_APIKEY }}" --source https://api.nuget.org/v3/index.json --skip-duplicate
+              dotnet nuget push "${{ env.OutputDirectory }}/${{ github.event.repository.name }}.nupkg" --api-key "${{ secrets.NUGET_TOKEN }}" --source https://api.nuget.org/v3/index.json --skip-duplicate
 
       - name: Release
         uses: softprops/action-gh-release@v1
         with:
           files: |
-            ${{ env.OutputDirectory }}/*.dll
-            ${{ env.OutputDirectory }}/*.xml
+            ${{ env.OutputDirectory }}/${{ github.event.repository.name }}.dll
+            ${{ env.OutputDirectory }}/${{ github.event.repository.name }}.xml
