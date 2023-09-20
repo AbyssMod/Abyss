@@ -82,4 +82,9 @@ jobs:
         run: |
               dotnet nuget push ${{ env.OutputDirectory }}/${{ github.event.repository.name }}.nupkg --api-key "${{ secrets.NUGET_APIKEY }}" --source https://api.nuget.org/v3/index.json --skip-duplicate
 
-      
+      - name: Release
+        uses: softprops/action-gh-release@v1
+        with:
+          files: |
+            ${{ env.OutputDirectory }}/*.dll
+            ${{ env.OutputDirectory }}/*.xml
