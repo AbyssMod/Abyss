@@ -28,7 +28,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: ${{ github.event.repository.name }}.nupkg
-          if-no-files-found: error
+          if-no-files-found: warn
           retention-days: 7
           path: ${{ env.OutputDirectory }}/${{ github.event.repository.name }}*.nupkg
 
@@ -51,6 +51,7 @@ jobs:
       - name: Publish NuGet package
         if: startsWith(github.ref, 'refs/tags/')
         shell: pwsh
+        contcontinue-on-error: true
         run: dotnet nuget push ${{ env.OutputDirectory }}/${{ github.event.repository.name }}*.nupkg --api-key "${{ secrets.NUGET_APIKEY }}" --source https://api.nuget.org/v3/index.json --skip-duplicate
           
       - name: Release Dll
