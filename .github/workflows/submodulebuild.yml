@@ -53,12 +53,18 @@ jobs:
         shell: pwsh
         run: dotnet nuget push ${{ env.OutputDirectory }}/${{ github.event.repository.name }}*.nupkg --api-key "${{ secrets.NUGET_APIKEY }}" --source https://api.nuget.org/v3/index.json --skip-duplicate
           
-      - name: Release
+      - name: Release Dll
         if: startsWith(github.ref, 'refs/tags/')
         uses: softprops/action-gh-release@v1
         with:
           fail_on_unmatched_files : true
           files: |
             ${{ env.OutputDirectory }}/${{ github.event.repository.name }}.dll
+
+      - name: Release Xml
+        if: startsWith(github.ref, 'refs/tags/')
+        uses: softprops/action-gh-release@v1
+        with:
+          fail_on_unmatched_files : false
+          files: |
              ${{ env.OutputDirectory }}/${{ github.event.repository.name }}.xml
-            
