@@ -81,6 +81,7 @@ jobs:
       - name: Release
         uses: softprops/action-gh-release@v1
         with:
+          fail_on_unmatched_files : true
           files: |
             ${{ env.OutputDirectory }}/${{ github.event.repository.name }}.dll
             ${{ env.OutputDirectory }}/${{ github.event.repository.name }}.xml
