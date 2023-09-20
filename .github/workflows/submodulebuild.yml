@@ -73,6 +73,13 @@ jobs:
           name: ${{ github.event.repository.name }}.xml
           path: ${{ env.OutputDirectory }}/${{ github.event.repository.name }}.xml
         continue-on-error: true
+      
+      - name: Publish NuGet and symbols
+        id: nuget-push
+        uses: edumserrano/nuget-push@v1
+        with:
+          api-key: '${{ secrets.NUGET_TOKEN }}'
+          nuget-package: '${{ env.OutputDirectory }}/${{ github.event.repository.name }}.nupkg'
           
       # Publish all NuGet packages to NuGet.org
       # Use --skip-duplicate to prevent errors if a package with the same version already exists.
