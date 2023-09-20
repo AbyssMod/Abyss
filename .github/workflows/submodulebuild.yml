@@ -59,29 +59,29 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: ${{ github.event.repository.name }}.nupkg
-          path: ${{ env.OutputDirectory }}/${{ github.event.repository.name }}.nupkg
+          path: ${{ github.workspace }}/${{ github.event.repository.name }}.nupkg
          
       - name: Download Dll Files
         uses: actions/download-artifact@v3
         with:
           name: ${{ github.event.repository.name }}.dll
-          path: ${{ env.OutputDirectory }}/${{ github.event.repository.name }}.dll
+          path: ${{ github.workspace }}/${{ github.event.repository.name }}.dll
 
       - name: Download Xml Files
         uses: actions/download-artifact@v3
         with:
           name: ${{ github.event.repository.name }}.xml
-          path: ${{ env.OutputDirectory }}/${{ github.event.repository.name }}.xml
+          path: ${{ github.workspace }}/${{ github.event.repository.name }}.xml
         continue-on-error: true
           
       - name: Publish NuGet package
         shell: pwsh
-        run: dotnet nuget push ${{ env.OutputDirectory }}/${{ github.event.repository.name }}.nupkg --api-key "${{ secrets.NUGET_APIKEY }}" --source https://api.nuget.org/v3/index.json --skip-duplicate
+        run: dotnet nuget push ${{ github.workspace }}/${{ github.event.repository.name }}.nupkg --api-key "${{ secrets.NUGET_APIKEY }}" --source https://api.nuget.org/v3/index.json --skip-duplicate
           
       - name: Release
         uses: softprops/action-gh-release@v1
         with:
           fail_on_unmatched_files : true
           files: |
-            ${{ env.OutputDirectory }}/${{ github.event.repository.name }}.dll
-            ${{ env.OutputDirectory }}/${{ github.event.repository.name }}.xml
+            ${{ github.workspace }}/${{ github.event.repository.name }}.dll
+            ${{ github.workspace }}/${{ github.event.repository.name }}.xml
