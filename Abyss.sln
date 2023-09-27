@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Abyss.Initializer", "Abyss.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Abyss.Abilities", "Abyss.Abilities\Abyss.Abilities.csproj", "{054E2E63-A368-4D5C-9844-819477CA715D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Abyss.WorldEvents", "Abyss.WorldEvents\Abyss.WorldEvents.csproj", "{24291040-65EB-46FD-9A8F-0DB7A64D7ABB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,10 +35,10 @@ Global
 		{054E2E63-A368-4D5C-9844-819477CA715D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{054E2E63-A368-4D5C-9844-819477CA715D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{054E2E63-A368-4D5C-9844-819477CA715D}.Release|Any CPU.Build.0 = Release|Any CPU
-		{9FD1E08F-7896-4CBB-BF94-7B9A8AA028FE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{9FD1E08F-7896-4CBB-BF94-7B9A8AA028FE}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{9FD1E08F-7896-4CBB-BF94-7B9A8AA028FE}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{9FD1E08F-7896-4CBB-BF94-7B9A8AA028FE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{24291040-65EB-46FD-9A8F-0DB7A64D7ABB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{24291040-65EB-46FD-9A8F-0DB7A64D7ABB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{24291040-65EB-46FD-9A8F-0DB7A64D7ABB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{24291040-65EB-46FD-9A8F-0DB7A64D7ABB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

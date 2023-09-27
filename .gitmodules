@@ -10,3 +10,6 @@
 [submodule "Abyss.Items"]
 	path = Abyss.Items
 	url = https://github.com/AbyssMod/Abyss.Items.git
+[submodule "Abyss.WorldEvents"]
+	path = Abyss.WorldEvents
+	url = https://github.com/AbyssMod/Abyss.WorldEvents.git
